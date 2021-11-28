@@ -12,13 +12,14 @@ export class Parser {
   private groupedClippings: GroupedClipping[] = [];
 
   printStats = () => {
+    console.log("\nStats for Clippings");
     for (const groupedClipping of this.groupedClippings) {
       console.log("--------------------------------------");
       console.log(`Title: ${groupedClipping.title}`);
       console.log(`Author: ${groupedClipping.author}`);
       console.log(`Highlights Count: ${groupedClipping.highlights.length}`);
-      console.log("--------------------------------------");
     }
+    console.log("--------------------------------------");
   };
 
   exportGroupedClippings = () => {
@@ -71,7 +72,7 @@ export class Parser {
     console.log("Reading Clippings.txt");
     const clippingsRaw = readFromFile(this.fileName);
 
-    console.log("Filtering Clippings.txt");
+    console.log("\nFiltering Clippings.txt");
     const clippingsFiltered = clippingsRaw.replace(this.nonUtf8, "");
 
     console.log("\nSplitting clippings using splitter ", this.splitter);
@@ -87,10 +88,11 @@ export class Parser {
     }
   };
 
-  processClippings = () => {
+  processClippings = (): GroupedClipping[] => {
     this.parseClippings();
     this.groupClippings();
     this.exportGroupedClippings();
     this.printStats();
+    return this.groupedClippings;
   };
 }
