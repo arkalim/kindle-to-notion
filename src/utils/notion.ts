@@ -3,6 +3,9 @@ import { Block, BlockType, CreatePageProperties } from "../interfaces";
 export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
   const blocks: Block[] = [];
   for (const highlight of highlights) {
+    // truncate the highlight to a maximum length of 2000 character due to notion limitation
+    const validHighlight =
+      highlight.length > 2000 ? highlight.substring(0, 2000) : highlight;
     const block: Block = {
       object: "block",
       type,
@@ -12,7 +15,7 @@ export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
         {
           type: "text",
           text: {
-            content: highlight,
+            content: validHighlight,
             link: null,
           },
         },

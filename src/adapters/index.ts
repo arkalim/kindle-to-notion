@@ -1,1 +1,1 @@
-export { Notion } from "./notion";
+export { NotionAdapter } from "./notion";

@@ -14,7 +14,7 @@ import _ from "lodash";
 import { writeToFile, makePageProperties } from "../utils";
 import { Block, CreatePageParams } from "../interfaces";
 
-export class Notion {
+export class NotionAdapter {
   private notion: Client;
 
   constructor() {
@@ -26,7 +26,7 @@ export class Notion {
       const response = await this.notion.databases.retrieve({
         database_id: databaseId,
       });
-      writeToFile("get-db-response.txt", response);
+      writeToFile("get-db-response.json", response);
       return response;
     } catch (error: unknown) {
       console.error("Failed to get database", error);
@@ -39,7 +39,7 @@ export class Notion {
   ): Promise<QueryDatabaseResponse> => {
     try {
       const response = await this.notion.databases.query(query);
-      writeToFile("query-db-response.txt", response);
+      writeToFile("query-db-response.json", response);
       return response;
     } catch (error: unknown) {
       console.error("Failed to query database", error);
@@ -52,7 +52,7 @@ export class Notion {
       const response = await this.notion.blocks.retrieve({
         block_id: blockId,
       });
-      writeToFile("get-block-response.txt", response);
+      writeToFile("get-block-response.json", response);
       return response;
     } catch (error: unknown) {
       console.error("Failed to get block", error);
@@ -81,7 +81,7 @@ export class Notion {
           results: [...blockChildren.results, ...remainingBlocks.results],
         };
       }
-      writeToFile("get-block-children-response.txt", blockChildren);
+      writeToFile("get-block-children-response.json", blockChildren);
       return blockChildren;
     } catch (error: unknown) {
       console.error("Failed to get block children", error);
@@ -110,7 +110,7 @@ export class Notion {
       const response = await this.notion.pages.retrieve({
         page_id: pageId,
       });
-      writeToFile("get-page-response.txt", response);
+      writeToFile("get-page-response.json", response);
       return response;
     } catch (error: unknown) {
       console.error("Failed to get page", error);
@@ -147,7 +147,7 @@ export class Notion {
       }
 
       const response = await this.notion.pages.create(page);
-      writeToFile("create-page-response.txt", response);
+      writeToFile("create-page-response.json", response);
       return response;
     } catch (error: unknown) {
       console.error("Failed to create page", error);

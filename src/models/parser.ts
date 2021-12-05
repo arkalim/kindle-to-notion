@@ -24,7 +24,7 @@ export class Parser {
 
   exportGroupedClippings = () => {
     console.log("\nExporting grouped clippings");
-    writeToFile("grouped-clippings.txt", this.groupedClippings);
+    writeToFile("grouped-clippings.json", this.groupedClippings);
   };
 
   addToClippingsArray = (match: RegExpExecArray | null) => {
