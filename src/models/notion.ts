@@ -16,8 +16,8 @@ export class Notion {
     this.notion = new NotionAdapter();
   }
 
+  /* Method to get Notion block id of the Notion page given the book name */
   getIdFromBookName = async (bookName: string) => {
-    /* Function to get notion block id of the book page given the book name */
     const response = await this.notion.queryDatabase({
       database_id: process.env.BOOK_DB_ID as string,
       filter: {
@@ -39,29 +39,27 @@ export class Notion {
     }
   };
 
+  /* Method to sync highlights to notion */
   syncHighlights = async (books: GroupedClipping[]) => {
-    /* Function to sync highlights to notion */
     try {
-      // sync only unsynced highlights from each book
+      // get unsynced highlights from each book
       const unsyncedBooks = getUnsyncedHighlights(books);
-
       // if unsynced books are present
       if (unsyncedBooks.length > 0) {
-        console.log("\nSyncing highlights to Notion");
+        console.log("\n🚀 Syncing highlights to Notion");
         for (const book of unsyncedBooks) {
-          console.log(`\nSyncing book: ${book.title}`);
+          console.log(`\n🔁 Syncing book: ${book.title}`);
           const bookId = await this.getIdFromBookName(book.title);
-
-          // if book is already present in Notion
+          // if the book is already present in Notion
           if (bookId) {
-            console.log(`Book already present, appending highlights`);
-            // append unsynced highlights at the end
+            console.log(`📚 Book already present, appending highlights`);
+            // append unsynced highlights at the end of the page
             await this.notion.appendBlockChildren(
               bookId,
               makeBlocks(book.highlights, BlockType.quote)
             );
           } else {
-            console.log(`Book not present, creating notion page`);
+            console.log(`📚 Book not present, creating notion page`);
             const createPageParams: CreatePageParams = {
               parentDatabaseId: process.env.BOOK_DB_ID as string,
               properties: {
@@ -72,18 +70,18 @@ export class Notion {
               children: makeHighlightsBlocks(book.highlights, BlockType.quote),
               icon: Emoji["🔖"],
             };
-            // create a new notion page for the book
+            // if the book page doesn't exist in notion, create a new notion page for the book
             await this.notion.createPage(createPageParams);
           }
-          // after each book is successfully synced, update the sync cache
+          // after each book is successfully synced, update the sync metadata (cache)
           updateSync(book);
         }
-        console.log("\nSuccessfully synced highlights to Notion");
+        console.log("\n✅ Successfully synced highlights to Notion");
       } else {
-        console.log("Every book is already synced!");
+        console.log("🟢 Every book is already synced!");
       }
     } catch (error: unknown) {
-      console.error("Failed to sync highlights", error);
+      console.error("❌ Failed to sync highlights", error);
       throw error;
     } finally {
       console.log("--------------------------------------");

@@ -11,22 +11,24 @@ export class Parser {
   private clippings: Clipping[] = [];
   private groupedClippings: GroupedClipping[] = [];
 
+  /* Method to print the stats of Clippings read from My Clippings.txt */
   printStats = () => {
-    console.log("\nStats for Clippings");
+    console.log("\n💹 Stats for Clippings");
     for (const groupedClipping of this.groupedClippings) {
       console.log("--------------------------------------");
-      console.log(`Title: ${groupedClipping.title}`);
-      console.log(`Author: ${groupedClipping.author}`);
-      console.log(`Highlights Count: ${groupedClipping.highlights.length}`);
+      console.log(`📝 Title: ${groupedClipping.title}`);
+      console.log(`🙋 Author: ${groupedClipping.author}`);
+      console.log(`💯 Highlights Count: ${groupedClipping.highlights.length}`);
     }
     console.log("--------------------------------------");
   };
 
+  /* Method to export the final grouped clippings to a file */
   exportGroupedClippings = () => {
-    console.log("\nExporting grouped clippings");
-    writeToFile("grouped-clippings.json", this.groupedClippings);
+    writeToFile(this.groupedClippings, "grouped-clippings.json", "data");
   };
 
+  /* Method add the parsed clippings to the clippings array */
   addToClippingsArray = (match: RegExpExecArray | null) => {
     if (match) {
       const title = match[1];
@@ -48,8 +50,9 @@ export class Parser {
     }
   };
 
+  /* Method to group clippings (highlights) by the title of the book */
   groupClippings = () => {
-    console.log("\nGrouping Clippings");
+    console.log("\n➕ Grouping Clippings");
     this.groupedClippings = _.chain(this.clippings)
       .groupBy("title")
       .map((clippings, title) => ({
@@ -59,7 +62,7 @@ export class Parser {
       }))
       .value();
 
-    // ensure no duplicates in the highlights
+    // remove duplicates in the highlights for each book
     this.groupedClippings = this.groupedClippings.map((groupedClipping) => {
       return {
         ...groupedClipping,
@@ -68,18 +71,18 @@ export class Parser {
     });
   };
 
+  /* Method to parse clippings (highlights) and add them to the clippings array */
   parseClippings = () => {
-    console.log("Reading Clippings.txt");
-    const clippingsRaw = readFromFile(this.fileName);
+    console.log("📋 Parsing Clippings");
+    const clippingsRaw = readFromFile(this.fileName, "resources");
 
-    console.log("\nFiltering Clippings.txt");
+    // filter clippings to remove the non-UTF8 character
     const clippingsFiltered = clippingsRaw.replace(this.nonUtf8, "");
 
-    console.log("\nSplitting clippings using splitter ", this.splitter);
+    // split clippings using splitter regex
     const clippingsSplit = clippingsFiltered.split(this.splitter);
-    console.log("\nLength of clippings", clippingsSplit.length - 1);
 
-    console.log("\nParsing clippings using regex", this.regex);
+    // parse clippings using regex
     for (let i = 0; i < clippingsSplit.length - 1; i++) {
       const clipping = clippingsSplit[i];
       const regex = new RegExp(this.regex.source);
@@ -88,6 +91,7 @@ export class Parser {
     }
   };
 
+  /* Wrapper method to process clippings */
   processClippings = (): GroupedClipping[] => {
     this.parseClippings();
     this.groupClippings();

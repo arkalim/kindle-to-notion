@@ -3,34 +3,28 @@ import { readFileSync, writeFileSync } from "fs";
 import { GroupedClipping, Sync } from "../interfaces";
 import _ from "lodash";
 
+/* Function to write to a file given the file, fileName and optionally the dirName */
 export const writeToFile = (
-  fileName: string,
   file: any,
-  dirName?: string
+  fileName: string,
+  dirName: string
 ): void => {
-  /* Function to write to a file given the file, fileName and optionally the dirName */
   writeFileSync(
-    path.join(
-      path.dirname(__dirname),
-      `../${dirName || "resources"}/${fileName}`
-    ),
+    path.join(path.dirname(__dirname), `../${dirName}/${fileName}`),
     JSON.stringify(file)
   );
 };
 
-export const readFromFile = (fileName: string, dirName?: string): string => {
-  /* Function to read a file given the fileName and optionally the dirName */
+/* Function to read a file given the fileName and optionally the dirName */
+export const readFromFile = (fileName: string, dirName: string): string => {
   return readFileSync(
-    path.join(
-      path.dirname(__dirname),
-      `../${dirName || "resources"}/${fileName}`
-    ),
+    path.join(path.dirname(__dirname), `../${dirName}/${fileName}`),
     "utf-8"
   );
 };
 
+/* Function to update the sync cache after every book is successfully synced */
 export const updateSync = (book: GroupedClipping) => {
-  /* Function to update the sync cache after every book is successfully synced */
   const oldSync: Sync[] = JSON.parse(readFromFile("sync.json", "cache"));
   const bookSync = _.find(oldSync, { title: book.title });
   let newSync: Sync[] = [];
@@ -54,19 +48,19 @@ export const updateSync = (book: GroupedClipping) => {
       },
     ];
   }
-  writeToFile("sync.json", newSync, "cache");
+  writeToFile(newSync, "sync.json", "cache");
 };
 
+/* Function to get unsynced highlights for each book */
 export const getUnsyncedHighlights = (books: GroupedClipping[]) => {
-  /* Function to get unsynced highlights for each book */
+  // read the sync metadata (cache)
   const sync: Sync[] = JSON.parse(readFromFile("sync.json", "cache"));
   const unsyncedHighlights: GroupedClipping[] = [];
-
   // if some books were synced earlier
   if (sync.length > 0) {
-    console.log("\nBooks already synced:\n");
+    console.log("\n🟢 Books already synced:\n");
     for (const book of books) {
-      // get the sync metadata for the book
+      // find the sync metadata for the book
       const bookSync = _.find(sync, { title: book.title });
       // if the book was synced earlier
       if (bookSync) {

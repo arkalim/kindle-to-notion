@@ -14,6 +14,7 @@ import _ from "lodash";
 import { writeToFile, makePageProperties } from "../utils";
 import { Block, CreatePageParams } from "../interfaces";
 
+/* Adapter to interact with Notion API directly */
 export class NotionAdapter {
   private notion: Client;
 
@@ -21,12 +22,13 @@ export class NotionAdapter {
     this.notion = new Client({ auth: process.env.NOTION_API_KEY });
   }
 
+  /* Method to get a Notion database */
   getDatabase = async (databaseId: string): Promise<GetDatabaseResponse> => {
     try {
       const response = await this.notion.databases.retrieve({
         database_id: databaseId,
       });
-      writeToFile("get-db-response.json", response);
+      writeToFile(response, "get-db-response.json", "data");
       return response;
     } catch (error: unknown) {
       console.error("Failed to get database", error);
@@ -34,12 +36,13 @@ export class NotionAdapter {
     }
   };
 
+  /* Method to query a Notion database */
   queryDatabase = async (
     query: QueryDatabaseParameters
   ): Promise<QueryDatabaseResponse> => {
     try {
       const response = await this.notion.databases.query(query);
-      writeToFile("query-db-response.json", response);
+      writeToFile(response, "query-db-response.json", "data");
       return response;
     } catch (error: unknown) {
       console.error("Failed to query database", error);
@@ -47,12 +50,13 @@ export class NotionAdapter {
     }
   };
 
+  /* Method to get a Notion block */
   getBlock = async (blockId: string): Promise<GetBlockResponse> => {
     try {
       const response = await this.notion.blocks.retrieve({
         block_id: blockId,
       });
-      writeToFile("get-block-response.json", response);
+      writeToFile(response, "get-block-response.json", "data");
       return response;
     } catch (error: unknown) {
       console.error("Failed to get block", error);
@@ -60,6 +64,7 @@ export class NotionAdapter {
     }
   };
 
+  /* Method to get the children of a Notion block */
   getBlockChildren = async (
     blockId: string
   ): Promise<ListBlockChildrenResponse> => {
@@ -81,7 +86,7 @@ export class NotionAdapter {
           results: [...blockChildren.results, ...remainingBlocks.results],
         };
       }
-      writeToFile("get-block-children-response.json", blockChildren);
+      writeToFile(blockChildren, "get-block-children-response.json", "data");
       return blockChildren;
     } catch (error: unknown) {
       console.error("Failed to get block children", error);
@@ -89,6 +94,7 @@ export class NotionAdapter {
     }
   };
 
+  /* Method to append new children to a Notion block */
   appendBlockChildren = async (
     blockId: string,
     children: Block[]
@@ -105,12 +111,13 @@ export class NotionAdapter {
     }
   };
 
+  /* Method to get a Notion page */
   getPage = async (pageId: string): Promise<GetPageResponse> => {
     try {
       const response = await this.notion.pages.retrieve({
         page_id: pageId,
       });
-      writeToFile("get-page-response.json", response);
+      writeToFile(response, "get-page-response.json", "data");
       return response;
     } catch (error: unknown) {
       console.error("Failed to get page", error);
@@ -118,6 +125,7 @@ export class NotionAdapter {
     }
   };
 
+  /* Method to create a Notion page */
   createPage = async (
     createPageParams: CreatePageParams
   ): Promise<CreatePageResponse> => {
@@ -147,7 +155,7 @@ export class NotionAdapter {
       }
 
       const response = await this.notion.pages.create(page);
-      writeToFile("create-page-response.json", response);
+      writeToFile(response, "create-page-response.json", "data");
       return response;
     } catch (error: unknown) {
       console.error("Failed to create page", error);
