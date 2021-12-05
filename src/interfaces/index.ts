@@ -1,4 +1,4 @@
-export { Clipping, GroupedClipping } from "./clipping";
+export { Clipping, GroupedClipping, Sync } from "./clipping";
 export {
   Block,
   BlockType,
