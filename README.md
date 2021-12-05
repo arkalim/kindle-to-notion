@@ -52,3 +52,4 @@ npm start
 - This tool only syncs the new highlights made to each book. If no new highlights have been made, no sync takes place. 
 - The info about the last sync is stored in ```sync.json``` present in ```cache``` folder.
 - In case you wish to sync every book all over again, you need to empty the array present in ```sync.json``` and delete all the highlights present in your **Notion** database before running the sync. 
+- Responses from Notion API calls are exported to files with ```.json``` extension in ```data``` folder. This was done to mitigate the problem of effectively logging JSON objects in the console (terminal).
