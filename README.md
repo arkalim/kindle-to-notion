@@ -27,7 +27,7 @@ Node v16.13.0
 
 - Get your Notion API key at https://www.notion.so/my-integrations and create a new **internal integration**.
 ![](/resources/images/book-highlights-integration.png)
-- Go to your Notion dashboard and add the integration you just created to your Book database.
+- Go to your Notion dashboard. Navigate to the Books database. Click on **Share** in the top right hand corner and invite the integration you just created.
 ![](/resources/images/adding-integration-to-database.png)
 - Copy the link to the Notion books database and extract the Database Id as shown below
   ```
@@ -39,7 +39,7 @@ Node v16.13.0
   NOTION_API_KEY=your-notion-api-key
   BOOK_DB_ID=your-book-database-id
   ```
-- Replace my ```My Clippings.txt``` in resources folder with yours 
+- Connect your **Kindle** to your computer. Navigate to ```Kindle``` ➡ ```documents``` and copy ```My Clippings.txt```. Replace my ```My Clippings.txt``` in ```resources``` folder with yours.
 
 # 🔁 Sync Highlights
 Run the following command to watch your highlights teleport!
