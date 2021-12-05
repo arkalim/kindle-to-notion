@@ -1,5 +1,5 @@
 # 🚀 Kindle to Notion 
-##### A way to seamlessly transfer your Kindle highlights to Notion Database!
+### A way to seamlessly transfer your Kindle highlights to Notion Database!
 
 # 🤖 Environment
 ```
@@ -20,12 +20,12 @@ Node v16.13.0
    ``` 
    npm install
    ```
-- Rename these files or folders by removing ```.example``` extension
-  - ```cache.example```
-  - ```data.example```
-  - ```.env.example```
+- Rename these files or folders by removing ```.example``` extension as shown below:
+  - ```cache.example``` ➡ ```cache```
+  - ```data.example``` ➡ ```data```
+  - ```.env.example``` ➡ ```.env```
 
-- Get your Notion API key: go to https://www.notion.so/my-integrations and create a new internal integration.
+- Get your Notion API key at https://www.notion.so/my-integrations and create a new **internal integration**.
 ![](/resources/images/book-highlights-integration.png)
 - Go to your Notion dashboard and add the integration you just created to your Book database.
 ![](/resources/images/adding-integration-to-database.png)
