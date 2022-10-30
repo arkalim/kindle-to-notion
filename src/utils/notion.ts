@@ -1,13 +1,29 @@
-import { Block, BlockType, CreatePageProperties } from "../interfaces";
+import { Block, BlockType, CreatePageProperties, GroupedClipping } from "../interfaces";
 
 /* Function to make an array of Notion blocks given the array of highlights and the block type
    Used when appending highlights to an existing Notion page for the book */
-export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
+export const makeBlocks = (highlights: string[], type: BlockType, book: GroupedClipping | null): Block[] => {
   const blocks: Block[] = [];
-  for (const highlight of highlights) {
+  for (let i = 0; i < highlights.length; i++) {
+    // for (const highlight of highlights) {
+    const highlight = highlights[i]
+    let location;
+    let date;
+    if (book) {
+      location = book.locations[i]
+      date = book.dates[i]
+    }
     // truncate the highlight to a maximum length of 2000 character due to Notion API limitation
     const validHighlight =
       highlight.length > 2000 ? highlight.substring(0, 2000) : highlight;
+    
+      let validText;
+    if (book){
+      validText = validHighlight + "\n" + location + " \nDate: " + date;
+    }
+    else {
+      validText = validHighlight;
+    }
     const block: Block = {
       object: "block",
       type,
@@ -17,7 +33,7 @@ export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
         {
           type: "text",
           text: {
-            content: validHighlight,
+            content: validText,
             link: null,
           },
         },
@@ -32,11 +48,12 @@ export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
    Used when creating a new Notion page for the book*/
 export const makeHighlightsBlocks = (
   highlights: string[],
-  type: BlockType
+  type: BlockType,
+  book: GroupedClipping
 ): Block[] => {
   return [
-    ...makeBlocks([" 🎀 Highlights"], BlockType.heading_1),
-    ...makeBlocks(highlights, type),
+    ...makeBlocks([" 🎀 Highlights"], BlockType.heading_1, null),
+    ...makeBlocks(highlights, type, book),
   ];
 };
 

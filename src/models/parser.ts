@@ -5,7 +5,7 @@ import { writeToFile, readFromFile } from "../utils";
 export class Parser {
   private fileName = "My Clippings.txt";
   private regex =
-    /(.+) \((.+)\)\r*\n- Your Highlight (at|on) (location|Location|page)( |(.+))([0-9]+)-([0-9]+) \| Added on ([a-zA-Z]+), ([a-zA-Z]+|[0-9]+) ([0-9]+|[a-zA-Z]+),? ([0-9]{4}) ([0-9]+):([0-9]+):([0-9]+\s? A?P?M?)\r*\n\r*\n(.+)/gm;
+    /(.+) \((.+)\)\r*\n- Your Highlight (at|on) (location|Location|page)( |(.+))([0-9]+)-([0-9]+) \| Added on ([a-zA-Z]+), ([0-9].) ([a-zA-Z]+|[0-9]+) ([0-9]+|[a-zA-Z]+),? ([0-9]??)([0-9]+):([0-9]+):([0-9]+)\r*\n\r*\n(.+)/gm;
   private splitter = /=+\r*\n/gm;
   private nonUtf8 = /\uFEFF/gmu;
   private clippings: Clipping[] = [];
@@ -33,10 +33,16 @@ export class Parser {
     if (match) {
       const title = match[1];
       let author = match[2];
-      const location = `${match[6]}-${match[7]}`;
-      const date = `${match[8]}, ${match[9]} ${match[10]}, ${match[11]}`;
-      const time = `${match[12]}:${match[13]}:${match[14]} ${match[15]}`;
-      const highlight = match[16];
+      let location;
+      if (match[6] == undefined) {
+        location = `${match[4]} ${match[7]}-${match[8]}`;
+      }
+      else {
+        location = `${match[4]}${match[6]}${match[7]}-${match[8]}`;
+      }
+      const date = `${match[9]}, ${match[10]} ${match[11]}, ${match[12]}`;
+      const time = `${match[13]}:${match[14]}:${match[15]} ${match[16]}`;
+      const highlight = match[17];
 
       // If the author name contains comma, fix it
       if (author.includes(",")) {
@@ -59,6 +65,8 @@ export class Parser {
         title,
         author: clippings[0].author,
         highlights: clippings.map((clipping) => clipping.highlight),
+        locations: clippings.map((clipping) => clipping.location),
+        dates: clippings.map((clipping) => clipping.date),
       }))
       .value();
 
@@ -81,7 +89,7 @@ export class Parser {
 
     // split clippings using splitter regex
     const clippingsSplit = clippingsFiltered.split(this.splitter);
-
+    console.log(clippingsSplit[0])
     // parse clippings using regex
     for (let i = 0; i < clippingsSplit.length - 1; i++) {
       const clipping = clippingsSplit[i];

@@ -56,7 +56,7 @@ export class Notion {
             // append unsynced highlights at the end of the page
             await this.notion.appendBlockChildren(
               bookId,
-              makeBlocks(book.highlights, BlockType.quote)
+              makeBlocks(book.highlights, BlockType.quote, book)
             );
           } else {
             console.log(`📚 Book not present, creating notion page`);
@@ -67,7 +67,7 @@ export class Notion {
                 author: book.author,
                 bookName: book.title,
               },
-              children: makeHighlightsBlocks(book.highlights, BlockType.quote),
+              children: makeHighlightsBlocks(book.highlights, BlockType.quote, book),
               icon: Emoji["🔖"],
             };
             // if the book page doesn't exist in notion, create a new notion page for the book
