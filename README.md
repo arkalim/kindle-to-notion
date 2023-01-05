@@ -1,29 +1,20 @@
 # 🚀 Kindle to Notion 
 ### A way to seamlessly transfer your Kindle highlights to Notion Database!
 
-# 🤖 Environment
+# 🔁 Usage
+Before you can run the sync, you need to complete the setup section. Once you have docker setup, run the following command. Make sure to fill in the required placeholders.
 ```
-Node v16.13.0
+docker run --rm -d \
+-v <path-to-clippings-file>:/code/resources/My\ Clippings.txt \
+-v cache:/code/cache \
+-e NOTION_API_KEY=<your-notion-api-key> \
+-e BOOK_DB_ID=<your-notion-db-id>
+kindle-to-notion
 ```
 
-# ⚙️ Setup
-- Copy my [Books Database Template](https://arkalim.notion.site/346be84507ff482b80fceb4024deadc2?v=e868075eaf5749bc941e617e651295fb) to your Notion dashboard 
-- Clone the repository to your local system 
-  ``` 
-  git clone https://github.com/arkalim/kindle-to-notion.git
-  ```
--  Move to your local repository
-   ``` 
-   cd kindle-to-notion
-   ```
--  Install dependencies
-   ``` 
-   npm install
-   ```
-- Rename these files or folders by removing ```.example``` extension as shown below:
-  - ```cache.example``` ➡ ```cache```
-  - ```data.example``` ➡ ```data```
-  - ```.env.example``` ➡ ```.env```
+# Setup
+
+- Install Docker on your system.
 
 - Get your Notion API key at https://www.notion.so/my-integrations and create a new **internal integration**.
 ![](/resources/images/book-highlights-integration.png)
@@ -34,18 +25,9 @@ Node v16.13.0
   Original Link: https://www.notion.so/arkalim/346be84507ff482b80fceb4024deadc2?v=e868075eaf5749bc941e617e651295fb
   Database Id: 346be84507ff482b80fceb4024deadc2
   ```
-- Populate these environment variables in ```.env``` file
-  ```
-  NOTION_API_KEY=your-notion-api-key
-  BOOK_DB_ID=your-book-database-id
-  ```
-- Connect your **Kindle** to your computer. Navigate to ```Kindle``` ➡ ```documents``` and copy ```My Clippings.txt```. Replace my ```My Clippings.txt``` in ```resources``` folder with yours.
+- You will need these to run the sync.
+- Connect your **Kindle** to your computer. Navigate to ```Kindle``` ➡ ```documents``` and copy ```My Clippings.txt```. Place it anywhere on your system. You will need it's path to run the sync.
 
-# 🔁 Sync Highlights
-Run the following command to watch your highlights teleport!
-```
-npm start
-```
 # ❗️For Nerds
 - Every highlight made on Kindle is appended at the end of ```My Clippings.txt```
 - ```Book Name``` is used as the primary key to facilitate upsert operation in **Notion** database. So, this field should be left untouched. However, the other fields like **Title**, **Author**, **Date Started**, **Date Finished**, **Satus** and **Genre** could be modified as per your wish.

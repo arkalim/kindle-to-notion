@@ -11,8 +11,6 @@ export interface GroupedClipping {
   title: string;
   author: string;
   highlights: string[];
-  locations: string[];
-  dates: string[];
 }
 
 export interface Sync {
