@@ -9,7 +9,7 @@ docker run --rm -d \
 -v cache:/code/cache \
 -e NOTION_API_KEY=<your-notion-api-key> \
 -e BOOK_DB_ID=<your-notion-db-id>
-kindle-to-notion
+arkalim/kindle-to-notion
 ```
 
 # Setup
