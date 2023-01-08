@@ -10,7 +10,7 @@ import {
 } from "../utils";
 
  
-async function createNewbookHighlights(title: string, author: string, highlights: string[], blockType: BlockType, notionInstance: NotionAdapter) {
+async function createNewbookHighlights(title: string, author: string, highlights: string[],  notionInstance: NotionAdapter) {
   const createPageParams: CreatePageParams = {
     parentDatabaseId: process.env.BOOK_DB_ID as string,
     properties: {
@@ -18,7 +18,7 @@ async function createNewbookHighlights(title: string, author: string, highlights
       author: author,
       bookName: title,
     },
-    children: makeHighlightsBlocks(highlights, blockType.quote),
+    children: makeHighlightsBlocks(highlights, BlockType.quote),
     icon: Emoji["🔖"],
   }
   await notionInstance.createPage(createPageParams);
@@ -93,14 +93,14 @@ export class Notion {
           } else {
             console.log(`📚 Book not present, creating notion page`);
             if(book.highlights.length <= 100) {
-              await createNewbookHighlights(book.title, book.author, book.highlights, BlockType, this.notion);
+              await createNewbookHighlights(book.title, book.author, book.highlights, this.notion);
             } else {
               // handle pagination if there are more than 100 highlights
               let highlightsTracker = 0;
               while(highlightsTracker < book.highlights.length) {
                 if(highlightsTracker == 0) {
                   // create a new page for the first 100 highlights
-                  await createNewbookHighlights(book.title, book.author, book.highlights.slice(highlightsTracker, highlightsTracker+99), BlockType, this.notion);
+                  await createNewbookHighlights(book.title, book.author, book.highlights.slice(highlightsTracker, highlightsTracker+99), this.notion);
                   highlightsTracker += 99;
                 } else {
                   // insert the remaining highlights by paginations
