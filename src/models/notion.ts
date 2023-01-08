@@ -9,12 +9,30 @@ import {
   makeBlocks,
 } from "../utils";
 
+ 
+async function createNewbookHighlights(title: string, author: string, highlights: string[],  notionInstance: NotionAdapter) {
+  const createPageParams: CreatePageParams = {
+    parentDatabaseId: process.env.BOOK_DB_ID as string,
+    properties: {
+      title: title,
+      author: author,
+      bookName: title,
+    },
+    children: makeHighlightsBlocks(highlights, BlockType.quote),
+    icon: Emoji["🔖"],
+  }
+  await notionInstance.createPage(createPageParams);
+}
+
 export class Notion {
   private notion;
 
   constructor() {
     this.notion = new NotionAdapter();
   }
+
+
+
 
   /* Method to get Notion block id of the Notion page given the book name */
   getIdFromBookName = async (bookName: string) => {
@@ -54,25 +72,51 @@ export class Notion {
           if (bookId) {
             console.log(`📚 Book already present, appending highlights`);
             // append unsynced highlights at the end of the page
-            await this.notion.appendBlockChildren(
-              bookId,
-              makeBlocks(book.highlights, BlockType.quote)
-            );
+            
+            if(book.highlights.length <= 100) {
+              await this.notion.appendBlockChildren(
+                bookId,
+                makeBlocks(book.highlights, BlockType.quote)
+              );
+            } else {
+              // handle pagination if there are more than 100 highlights
+              let highlightsTracker = 0;
+              while(highlightsTracker < book.highlights.length) {
+                await this.notion.appendBlockChildren(
+                  bookId,
+                  makeBlocks(book.highlights.slice(highlightsTracker, highlightsTracker+99), BlockType.quote)
+                );
+                highlightsTracker+=99;
+              }
+            }
+            
           } else {
             console.log(`📚 Book not present, creating notion page`);
-            const createPageParams: CreatePageParams = {
-              parentDatabaseId: process.env.BOOK_DB_ID as string,
-              properties: {
-                title: book.title,
-                author: book.author,
-                bookName: book.title,
-              },
-              children: makeHighlightsBlocks(book.highlights, BlockType.quote),
-              icon: Emoji["🔖"],
-            };
-            // if the book page doesn't exist in notion, create a new notion page for the book
-            await this.notion.createPage(createPageParams);
+            if(book.highlights.length <= 100) {
+              await createNewbookHighlights(book.title, book.author, book.highlights, this.notion);
+            } else {
+              // handle pagination if there are more than 100 highlights
+              let highlightsTracker = 0;
+              while(highlightsTracker < book.highlights.length) {
+                if(highlightsTracker == 0) {
+                  // create a new page for the first 100 highlights
+                  await createNewbookHighlights(book.title, book.author, book.highlights.slice(highlightsTracker, highlightsTracker+99), this.notion);
+                  highlightsTracker += 99;
+                } else {
+                  // insert the remaining highlights by paginations
+                  let newBookId = await this.getIdFromBookName(book.title);
+                  if(newBookId) {
+                    await this.notion.appendBlockChildren(
+                      newBookId, 
+                      makeBlocks(book.highlights.slice(highlightsTracker, highlightsTracker+99), BlockType.quote)
+                    );
+                    highlightsTracker += 99;
+                  }
+                }
+              }
+            }
           }
+            
           // after each book is successfully synced, update the sync metadata (cache)
           updateSync(book);
         }
