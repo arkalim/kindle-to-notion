@@ -9,7 +9,7 @@ docker run --rm -d \
 -v cache:/code/cache \
 -e NOTION_API_KEY=<your-notion-api-key> \
 -e BOOK_DB_ID=<your-notion-db-id>
-arkalim/kindle-to-notion
+ghcr.io/arkalim/kindle-to-notion:master
 ```
 
 # Setup
@@ -35,3 +35,4 @@ arkalim/kindle-to-notion
 - The info about the last sync is stored in ```sync.json``` present in ```cache``` folder.
 - In case you wish to sync every book all over again, you need to empty the array present in ```sync.json``` and delete all the highlights present in your **Notion** database before running the sync. 
 - Responses from Notion API calls are exported to files with ```.json``` extension in ```data``` folder. This was done to mitigate the problem of effectively logging JSON objects in the console (terminal).
+- GitHub Action is used for CICD. Whenever a push is made to the master branch, the Docker image is rebuilt and pushed to GitHub packages repository.
