@@ -25,5 +25,4 @@ RUN npm install --omit=dev
 
 COPY --from=build /code/dist dist
 
-# CMD node dist/main.js
-CMD sleep infinity
+CMD node dist/main.js
