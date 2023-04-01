@@ -18,6 +18,8 @@ FROM node:18-alpine
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
+RUN apk add git
+
 WORKDIR /code/
 
 COPY data data
