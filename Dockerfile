@@ -20,9 +20,13 @@ WORKDIR /code/
 COPY data data
 COPY cache cache
 
+COPY entrypoint.sh entrypoint.sh
+
+RUN chmod +x entrypoint.sh
+
 COPY package.json .
 RUN npm install --omit=dev
 
 COPY --from=build /code/dist dist
 
-CMD node dist/main.js
+ENTRYPOINT ["entrypoint.sh"]

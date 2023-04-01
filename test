@@ -1,0 +1,6 @@
+docker run \
+-v /Users/arkalim/Documents/Projects/kindle-to-notion/clippings:/code/resources/ \
+-v cache:/code/cache \
+-e NOTION_API_KEY=secret_ffBuD0yY81OfDhvuNDrM1GNhFd1jHcJsCwii20eOfzB \
+-e BOOK_DB_ID=346be84507ff482b80fceb4024deadc2 \
+ghcr.io/arkalim/kindle-to-notion:master

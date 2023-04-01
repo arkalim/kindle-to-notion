@@ -1,0 +1,17 @@
+name: "Kindle to Notion"
+description: "Sync Kindle highlights to Notion"
+
+inputs:
+  notion_api_key:
+    description: "API key of the notion account"
+    required: true
+  book_db_id:
+    description: "ID of the DB where highlights are to be synced"
+    required: true
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.notion_api_key }}
+    - ${{ inputs.book_db_id }}
