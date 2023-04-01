@@ -15,18 +15,17 @@ RUN npm run build
 # Run stage
 FROM node:18-alpine
 
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
 WORKDIR /code/
 
 COPY data data
 COPY cache cache
-
-COPY entrypoint.sh entrypoint.sh
-
-RUN chmod +x entrypoint.sh
 
 COPY package.json .
 RUN npm install --omit=dev
 
 COPY --from=build /code/dist dist
 
-ENTRYPOINT ["/code/entrypoint.sh"]
+ENTRYPOINT ["sh", "/entrypoint.sh"]
