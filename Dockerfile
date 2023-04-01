@@ -29,4 +29,4 @@ RUN npm install --omit=dev
 
 COPY --from=build /code/dist dist
 
-ENTRYPOINT ["/code/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
