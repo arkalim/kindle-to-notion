@@ -20,4 +20,7 @@ COPY cache cache
 
 # ENTRYPOINT ["sh", "./dist/entrypoint.sh"]
 # ENTRYPOINT [ "ls", "-alh" ]
+
+WORKDIR /
+
 CMD sleep infinity
