@@ -1,8 +1,6 @@
 name: Create and publish the Docker image
 
-on:
-  push:
-    branches: ["master"]
+on: push
 
 jobs:
   build-and-push-image:
