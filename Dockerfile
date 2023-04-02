@@ -30,4 +30,5 @@ RUN npm install --omit=dev
 
 COPY --from=build /code/dist dist
 
-ENTRYPOINT ["sh", "/entrypoint.sh"]
+# ENTRYPOINT ["sh", "/entrypoint.sh"]
+ENTRYPOINT ls -alh

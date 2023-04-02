@@ -8,5 +8,7 @@ export BOOK_DB_ID=$INPUT_BOOK_DB_ID
 
 # node dist/main.js
 
+# git clone "https://github.com/${GITHUB_REPOSITORY}" /highlights 
+
 pwd
 ls -alh
