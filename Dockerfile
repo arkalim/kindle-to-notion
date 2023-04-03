@@ -16,7 +16,6 @@ COPY src src
 RUN npm run build
 
 COPY data data
-COPY cache cache
 
 # ENTRYPOINT ["sh", "./dist/entrypoint.sh"]
 # ENTRYPOINT [ "ls", "-alh" ]
