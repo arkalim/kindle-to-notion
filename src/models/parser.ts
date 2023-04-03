@@ -74,7 +74,7 @@ export class Parser {
   /* Method to parse clippings (highlights) and add them to the clippings array */
   parseClippings = () => {
     console.log("📋 Parsing Clippings");
-    const clippingsRaw = readFromFile(this.fileName, "clippings");
+    const clippingsRaw = readFromFile(this.fileName, "resources");
 
     // filter clippings to remove the non-UTF8 character
     const clippingsFiltered = clippingsRaw.replace(this.nonUtf8, "");
