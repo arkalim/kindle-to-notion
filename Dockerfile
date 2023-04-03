@@ -15,11 +15,15 @@ RUN npm run build
 # Run stage
 FROM node:18-alpine
 
-COPY data /code/data
+WORKDIR /code/
 
-COPY package.json /code/package.json
+COPY data data
+
+COPY package.json .
 RUN npm install --omit=dev
 
-COPY --from=build /code/dist /code/dist
+COPY --from=build /code/dist dist
+
+WORKDIR /
 
 ENTRYPOINT node /code/dist/main.js
