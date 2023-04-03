@@ -1,5 +1,5 @@
 import path from "path";
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { GroupedClipping, Sync } from "../interfaces";
 import _ from "lodash";
 
@@ -54,6 +54,17 @@ export const updateSync = (book: GroupedClipping) => {
 /* Function to get unsynced highlights for each book */
 export const getUnsyncedHighlights = (books: GroupedClipping[]) => {
   // read the sync metadata (cache)
+
+  // create an empty cache if it doesn't already exists
+  const cacheFile = path.join(
+    path.dirname(__dirname),
+    `../resources/sync.json`
+  );
+
+  if (!existsSync(cacheFile)) {
+    writeFileSync(cacheFile, "[]");
+  }
+
   const sync: Sync[] = JSON.parse(readFromFile("sync.json", "resources"));
   const unsyncedHighlights: GroupedClipping[] = [];
   // if some books were synced earlier
