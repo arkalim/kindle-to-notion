@@ -17,9 +17,9 @@ ghcr.io/arkalim/kindle-to-notion:master
 - Install Docker on your system.
 
 - Get your Notion API key at https://www.notion.so/my-integrations and create a new **internal integration**.
-![](/resources/images/book-highlights-integration.png)
+![](/images/book-highlights-integration.png)
 - Go to your Notion dashboard. Navigate to the Books database. Click on **Share** in the top right hand corner and invite the integration you just created.
-![](/resources/images/adding-integration-to-database.png)
+![](/images/adding-integration-to-database.png)
 - Copy the link to the Notion books database and extract the Database Id as shown below
   ```
   Original Link: https://www.notion.so/arkalim/346be84507ff482b80fceb4024deadc2?v=e868075eaf5749bc941e617e651295fb
