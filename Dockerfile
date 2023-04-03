@@ -1,8 +1,5 @@
 # Build stage
-FROM node
-
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
+FROM node as build
 
 WORKDIR /code/
 
@@ -15,11 +12,20 @@ COPY src src
 
 RUN npm run build
 
-COPY data data
+# Run stage
+FROM node:18-alpine
 
-# ENTRYPOINT ["sh", "./dist/entrypoint.sh"]
-# ENTRYPOINT [ "ls", "-alh" ]
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
 
-WORKDIR /
+RUN apk add git
 
-CMD sleep infinity
+COPY data /code/data
+COPY cache /code/cache
+
+COPY package.json /code/package.json
+RUN npm install --omit=dev
+
+COPY --from=build /code/dist /code/dist
+
+ENTRYPOINT node /code/dist/main.js
