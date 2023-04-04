@@ -6,7 +6,7 @@
 
 To sync your highlights, just upload the new ```My Clippings.txt``` file into your GitHub repo. It will trigger a GitHub Action to sync the newly added highlights to your Notion books database.
 
-# Setup
+# ⚙️ Setup
 
 - Duplicate my [Notion books database](https://arkalim.notion.site/Library-c966166d851b4a3588bf33049175dd79) as a template in your Notion account. You don't need to clone the contents of my database. You only need to database table. This will serve as your Notion books database.
 
