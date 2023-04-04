@@ -18,11 +18,12 @@ FROM node:18-alpine
 WORKDIR /code/
 
 COPY data data
-COPY cache cache
 
 COPY package.json .
 RUN npm install --omit=dev
 
 COPY --from=build /code/dist dist
 
-CMD node dist/main.js
+WORKDIR /
+
+ENTRYPOINT node /code/dist/main.js

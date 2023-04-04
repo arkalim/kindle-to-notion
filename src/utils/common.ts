@@ -1,5 +1,5 @@
 import path from "path";
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { GroupedClipping, Sync } from "../interfaces";
 import _ from "lodash";
 
@@ -25,7 +25,7 @@ export const readFromFile = (fileName: string, dirName: string): string => {
 
 /* Function to update the sync cache after every book is successfully synced */
 export const updateSync = (book: GroupedClipping) => {
-  const oldSync: Sync[] = JSON.parse(readFromFile("sync.json", "cache"));
+  const oldSync: Sync[] = JSON.parse(readFromFile("sync.json", "resources"));
   const bookSync = _.find(oldSync, { title: book.title });
   let newSync: Sync[] = [];
   if (bookSync) {
@@ -48,13 +48,24 @@ export const updateSync = (book: GroupedClipping) => {
       },
     ];
   }
-  writeToFile(newSync, "sync.json", "cache");
+  writeToFile(newSync, "sync.json", "resources");
 };
 
 /* Function to get unsynced highlights for each book */
 export const getUnsyncedHighlights = (books: GroupedClipping[]) => {
   // read the sync metadata (cache)
-  const sync: Sync[] = JSON.parse(readFromFile("sync.json", "cache"));
+
+  // create an empty cache if it doesn't already exists
+  const cacheFile = path.join(
+    path.dirname(__dirname),
+    `../resources/sync.json`
+  );
+
+  if (!existsSync(cacheFile)) {
+    writeFileSync(cacheFile, "[]");
+  }
+
+  const sync: Sync[] = JSON.parse(readFromFile("sync.json", "resources"));
   const unsyncedHighlights: GroupedClipping[] = [];
   // if some books were synced earlier
   if (sync.length > 0) {
