@@ -65,13 +65,15 @@ To sync your highlights, just upload the new ```My Clippings.txt``` file into yo
 - Now, you need to allow GitHub Action to save the cache (make updates) to the repository. For that, go to repository settings. Click on *Actions* and then on *General*. Scroll down to *Workflow permissions* and select *Read and write permissions*.
 ![](/images/workflow-permissions.png)
 
-- You can now manually trigger the GitHub Action by going to the Actions tab in the GitHub repo. This will sync the highlights for the first time. Afterwards, whenever you want to sync your highlights, just upload the new `My Clippings.txt` file into your GitHub repo. It will automatically trigger the action to sync the newly added highlights.
+- You can now manually trigger the GitHub Action by going to the Actions tab in the GitHub repo. This will sync the highlights for the first time and create a `sync.json` file (cache) in the repository. Afterwards, whenever you want to sync your highlights, just upload the new `My Clippings.txt` file into your GitHub repo. It will automatically trigger the action to sync the newly added highlights.
+
+> For reference on how to setup your repo, take a look at my [Kindle Highlights Repo](https://github.com/arkalim/kindle-highlights) 
 
 # ❗️For Nerds
 - Every highlight made on Kindle is appended at the end of `My Clippings.txt`
 - ```Book Name``` is used as the primary key to facilitate upsert operation in **Notion** database. So, this field should be left untouched. However, the other fields like **Title**, **Author**, **Date Started**, **Date Finished**, **Satus** and **Genre** could be modified as per your wish.
 - This tool only syncs the new highlights made to each book. If no new highlights have been made, no sync takes place. 
 - The info about the last sync is stored in `sync.json` present in your repository containing `My Clippings.txt`.
-- In case you wish to sync every book all over again, delete the `sync.json` file and delete all the highlights present in your **Notion**.
+- In case you wish to sync every book all over again, delete the `sync.json` file from the repo and delete all the highlights present in your **Notion**.
 - **GitHub Action** is used for CICD. Whenever a push is made to the master branch, the Docker image is rebuilt and pushed to GitHub container registry.
 - Your GitHub repo containing `My Clippings.txt` runs the GitHub action to sync the highlights to Notion everytime you push a change to it. It can also be triggered manually from the *Actions* tab.
