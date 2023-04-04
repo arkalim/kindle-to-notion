@@ -1,6 +1,6 @@
 name: Create and publish the Docker image
 
-on: push
+on: [push, workflow_dispatch]
 
 jobs:
   build-and-push-image:
