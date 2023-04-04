@@ -40,7 +40,7 @@ To sync your highlights, just upload the new ```My Clippings.txt``` file into yo
         - name: Sync highlights
           uses: addnab/docker-run-action@v3
           with:
-            image: ghcr.io/arkalim/kindle-to-notion:adding-action
+            image: ghcr.io/arkalim/kindle-to-notion:master
             run: node /code/dist/main.js
             options: |
               -v ${{ github.workspace }}:/code/resources 
