@@ -1,6 +1,8 @@
 # 🚀 Kindle to Notion 
 ### Seamlessly transfer your Kindle highlights to a Notion Database!
 
+### [🎬 Video tutorial to setup this app](https://youtu.be/NLgyy-KoiFY)
+
 # 🔁 Usage
 > Before you can run the sync, you need to complete the setup section.
 
