@@ -5,7 +5,7 @@ import { writeToFile, readFromFile } from "../utils";
 export class Parser {
   private fileName = "My Clippings.txt";
   private regex =
-    /(.+) \((.+)\)\r*\n- Your Highlight (at|on) (location|Location|page|Page)( |(.+))([0-9]+)-([0-9]+) \| Added on ([a-zA-Z]+), ([a-zA-Z]+|[0-9]+) ([0-9]+|[a-zA-Z]+),? ([0-9]{4}) ([0-9]+):([0-9]+):([0-9]+\s? A?P?M?)\r*\n\r*\n(.+)/gm;
+    /(.+) \((.+)\)\r*\n- Your Highlight (at|on) (location|Location|page|Page)( |(.+))([0-9]+)-([0-9]+) \| Added on ([a-zA-Z]+), ([a-zA-Z]+|[0-9]+) ([0-9]+|[a-zA-Z]+),? ([0-9]{4}) ([0-9]+):([0-9]+):([0-9]+\s? ?A?P?M?)\r*\n\r*\n(.+)/gm;
   private splitter = /=+\r*\n/gm;
   private nonUtf8 = /\uFEFF/gmu;
   private clippings: Clipping[] = [];
