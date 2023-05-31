@@ -97,3 +97,13 @@ export const getUnsyncedHighlights = (books: GroupedClipping[]) => {
     return books;
   }
 };
+
+export const formatAuthorName = (author: string) => {
+  if (author.includes(",")) {
+    const names = author
+      .split(",")
+      .map((name) => name.replace(/^\s*|\s*$/g, ""));
+    author = `${names[1]} ${names[0]}`;
+  }
+  return author;
+};
