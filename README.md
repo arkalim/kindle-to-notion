@@ -50,7 +50,7 @@ To sync your highlights, just upload the new ```My Clippings.txt``` file into yo
               -e NOTION_API_KEY=${{ secrets.NOTION_API_KEY }}
 
         - name: Commit cache changes
-          uses: EndBug/add-and-commit@v7
+          uses: EndBug/add-and-commit@v9
           with:
             message: Commit cache changes
             add: sync.json
