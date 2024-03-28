@@ -19,6 +19,7 @@ To sync your highlights, just upload the new ```My Clippings.txt``` file into yo
 ![](/images/adding-integration-to-database.png)
 
 - On the Notion books database page, go to **Share** and click on **Copy link** to get the URL of the Notion database.
+**Note:** You must open the books database **as a page** before copying the link.
 ![](/images/getting-db-link.png)
 
 - Now, extract the Database Id from the link as shown in the example below:
