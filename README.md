@@ -15,7 +15,10 @@ To sync your highlights, just upload the new ```My Clippings.txt``` file into yo
 - Create a new **internal integration** at https://www.notion.so/my-integrations and copy the **Notion API key**.
 ![](/images/book-highlights-integration.png)
 
-- Go to your Notion dashboard. Open your books database as a page. Click on the three dots icon (more options) and go to **Add connection**. Search for the integration you created in the previous step and add it as a connection.
+- Go to your Notion dashboard. Open your books database as a page. 
+![](/images/open-books-db-as-a-page.png)
+
+- Click on the three dots icon (more options) and go to **Add connection**. Search for the integration you created in the previous step and add it as a connection.
 ![](/images/adding-integration-to-database.png)
 
 - On the Notion books database page, go to **Share** and click on **Copy link** to get the URL of the Notion database.
