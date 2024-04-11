@@ -5,7 +5,7 @@ import { writeToFile, readFromFile, formatAuthorName } from "../utils";
 export class Parser {
   private fileName = "My Clippings.txt";
   private regex =
-    /(.+) \((.+)\)\r*\n- (?:Your Highlight|La subrayado|Your Note|Deine Markierung|\u60a8\u5728\u4f4d)(.+)\r*\n\r*\n(.+)/gm;
+    /(.+) \((.+)\)\r*\n- (?:Seu destaque|Your Highlight|La subrayado|Your Note|Deine Markierung|\u60a8\u5728\u4f4d)(.+)\r*\n\r*\n(.+)/gm;
   private splitter = /=+\r*\n/gm;
   private nonUtf8 = /\uFEFF/gmu;
   private clippings: Clipping[] = [];
