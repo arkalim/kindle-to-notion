@@ -19,7 +19,7 @@ async function createNewbookHighlights(title: string, author: string, highlights
       bookName: title,
     },
     children: makeHighlightsBlocks(highlights, BlockType.quote),
-    icon: Emoji["🔖"],
+    icon: Emoji["https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F8545bc48-ff85-4494-a2dc-fbdf5f6a8b1c%2Fe84ea58e-18d9-4f5e-b353-3db2a64fd76c%2F1000135369.svg?table=block&id=29d94bd1-d1ce-4e81-848d-9e18930d8024&spaceId=8545bc48-ff85-4494-a2dc-fbdf5f6a8b1c&userId=dadfaabe-1363-48da-af1f-427b22e79d0c&cache=v2"],
   }
   await notionInstance.createPage(createPageParams);
 }
