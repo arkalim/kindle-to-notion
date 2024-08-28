@@ -28,14 +28,14 @@ export const makeBlocks = (highlights: string[], type: BlockType): Block[] => {
   return blocks;
 };
 
-/* Function to make an array of Notion blocks with a title: " 🎀 Highlights". 
+/* Function to make an array of Notion blocks with a title: " Highlights". 
    Used when creating a new Notion page for the book*/
 export const makeHighlightsBlocks = (
   highlights: string[],
   type: BlockType
 ): Block[] => {
   return [
-    ...makeBlocks([" 🎀 Highlights"], BlockType.heading_1),
+    ...makeBlocks([" Highlights"], BlockType.heading_1),
     ...makeBlocks(highlights, type),
   ];
 };
